@@ -182,9 +182,14 @@ smart_assistant/
 -Customizable Urgency Mapping: Allow users to define their own time assignments for urgency levels
 
 -Calendar Integration: Sync with Google Calendar API for read-write access
+
 -Natural Language Rescheduling: "Move my 3 PM meeting to 4 PM" without manual conflict checking
+
 -Batch Operations: Handle multiple tasks in one request
+
 -Analytics & Insights: Track task completion, identify scheduling patterns
+
 -Recurring Tasks: Support "every Monday" or "daily" patterns
-Notifications: Webhook or webhook support for reminders
+
+-Notifications: Webhook or webhook support for reminders
 
