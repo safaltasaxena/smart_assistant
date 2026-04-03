@@ -103,6 +103,11 @@ def smart_execution(tool_context: ToolContext, prompt: str):
     time = smart_time_parser(prompt)
     urgency = detect_urgency(prompt)
 
+    # 🔥 DEBUG PRINTS
+    print("DB EVENTS:", load(USER_ID, "events"))
+    print("DB TASKS:", load(USER_ID, "tasks"))
+
+
     if time == "not specified":
         time = assign_time_based_on_urgency(urgency)
 
@@ -113,7 +118,8 @@ def smart_execution(tool_context: ToolContext, prompt: str):
         "urgency": urgency,
         "steps": plan,
         "actions": [],
-        "conflict": None
+        "conflict": None,
+        "existing": get_all_times() 
     }
 
     for step in plan:
@@ -152,17 +158,15 @@ planner = Agent(
     name="planner",
     model=model_name,
     instruction="""
-You are an intelligent planner.
+You are a strict function-calling planner.
 
-When the user gives any request:
-- ALWAYS call the function smart_execution
-- Pass the full user input as the "prompt" argument
-- Do NOT answer yourself
+RULES:
+- You MUST call smart_execution for EVERY request
+- You are NOT allowed to answer directly
+- Do NOT generate text
+- ONLY return function call
 
-If a conflict is returned:
-- Pass it to responder clearly
-
-Only call the function.
+If you fail to call tool, you are WRONG.
 """,
     tools=[smart_execution, daily_plan],
     output_key="result"
@@ -173,22 +177,23 @@ responder = Agent(
     name="responder",
     model=model_name,
     instruction="""
-You are a smart assistant.
+You are a strict assistant.
 
-If result contains a conflict:
-- Tell the user clearly:
-    "You already have something scheduled at [time]"
-- Mention what they tried to add
-- Ask what they want to do:
-    1. Reschedule new item
-    2. Replace existing item
-    3. Choose another time
+If there is a conflict:
+- Show what already exists using the "existing" list
+- Example:
+    You already have:
+    - Meeting at 6 PM
+
+- Then explain the conflict clearly
+- Ask what user wants to do
 
 If no conflict:
-- Confirm the action clearly
-- Mention time and details
+- ONLY describe actions performed
+- DO NOT invent anything
 
-Be natural and helpful.
+Never make up tasks or events.
+Only use given data.
 """
 )
 
