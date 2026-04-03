@@ -1,0 +1,9 @@
+google-adk==1.14.0
+python-dotenv
+uvicorn
+fastapi
+pydantic
+google-cloud-logging
+google-auth
+google-cloud-firestore
+google-genai
