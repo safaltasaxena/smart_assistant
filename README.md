@@ -193,3 +193,49 @@ smart_assistant/
 
 -Notifications: Webhook or webhook support for reminders
 
+## 💻 How to Run Locally
+
+### 1. Clone the Repository
+git clone https://github.com/your-username/smart_assistant.git
+cd smart_assistant
+
+### 2. Create Virtual Environment
+python -m venv venv
+
+# Mac/Linux
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+
+### 3. Install Dependencies
+pip install -r requirements.txt
+
+### 4. Set Environment Variables
+Create a `.env` file in the root directory:
+
+MODEL=your_model_name
+GOOGLE_APPLICATION_CREDENTIALS=path/to/your/key.json
+
+Make sure:
+- You have a valid Google Cloud service account key
+- Firestore and Vertex AI are enabled in your project
+
+### 5. Initialize Google Cloud (Optional)
+gcloud auth application-default login
+gcloud config set project YOUR_PROJECT_ID
+
+### 6. Run the Application
+uvicorn app:app --reload
+
+Server will start at:
+http://127.0.0.1:8000
+
+### 7. Test the API
+curl -X POST http://127.0.0.1:8000/chat -H "Content-Type: application/json" -d "{\"message\": \"schedule meeting at 6 pm\"}"
+
+## 🧪 Example Inputs
+- Add task to study DSA
+- Schedule meeting at 6 PM
+- Save note about startup idea
+- Plan my day
