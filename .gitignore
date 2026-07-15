@@ -9,23 +9,24 @@ __pycache__/
 .venv/
 venv/
 
-# Environment variables
+# Environment variables — use .env.example as the template
 .env
 
 # Logs
 *.log
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Cloud / credentials
+# Cloud credentials
 key.json
+*.json
 
 # IDE
 .vscode/
 .idea/
 
-# Build / temp
+# Build
 dist/
 build/
